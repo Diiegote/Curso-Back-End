@@ -11,6 +11,20 @@ module.exports = {
          res.render("tasks/show",{task});
       });
    },
+   edit:(req,res)=>{
+      Task.findByPk(req.params.id).then((task)=>{
+         res.render("tasks/edit",{task});
+      });
+   },
+   destroy:(req,res)=>{
+      Task.destroy({
+         where:{
+            id: req.params.id
+         }
+      }).then((contadorDeElementosEliminados)=>{
+         res.redirect("/tasks")
+      })
+   },
    create:(req,res)=>{
       Task.create({
          description: req.body.description
