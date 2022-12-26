@@ -5,11 +5,22 @@ module.exports= {
       res.render("sessions/new");
    },
    create:(req,res)=>{
-      User.login(req.body.email,req.body.password).then(user => res.json(user))
-                                                   .catch(err =>{
-                                                   console.log(err);  
-                                                    res.json(err);
-                                                   })
-
-   }
+      User.login(req.body.email,req.body.password)
+      .then(user => {
+         if(user){
+            req.session.userId=user.id; //guardamos el id del usuario encontrado en una session con nombre userID
+         }
+         res.json(user)
+      })
+       .catch(err =>{
+        console.log(err);  
+         res.json(err);                                           
+           })                                                                                   
+                                            
+         },
+         destroy:(req,res)=>{
+            req.session.destroy(()=>{
+               res.redirect("/sessions");
+            })
+         }
 };

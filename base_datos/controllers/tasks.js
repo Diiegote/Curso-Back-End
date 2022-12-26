@@ -3,11 +3,15 @@ const Task= require("../models").Task;
 module.exports = {
    index:(req,res)=>{
       Task.findAll().then((tasks)=>{
-        res.render("tasks/index",{tasks});
+        res.render("tasks/index",{tasks:req.user.tasks});
       })
    },
    show:(req,res)=>{
-      Task.findByPk(req.params.id).then((task)=>{
+      Task.findByPk(req.params.id,{
+         include:[
+            'user'
+         ]
+      }).then((task)=>{
          res.render("tasks/show",{task});
       });
    },
@@ -27,7 +31,8 @@ module.exports = {
    },
    create:(req,res)=>{
       Task.create({
-         description: req.body.description
+         description: req.body.description,
+         userId:req.user.id
       }).then(results=>{
          res.json(results);
       }).catch(err=>{
