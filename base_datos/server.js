@@ -11,6 +11,7 @@ const registrationsRoutes = require("./routes/registrations_routes");
 const sessionsRoutes=require("./routes/sessions_routes");
 const findUserMiddleWare = require("./middlewares/find_user"); //importamos el middleware que busca el id del usaurio
 const authUser = require("./middlewares/auth_user"); //middlaware para authenticar un usuario
+const categoriesRoutes= require("./routes/categories_routes");
 
 
 // para poder utilizar el metodo post
@@ -30,6 +31,7 @@ app.use(authUser); // funcion que chekea que el usuario tenga permisos para ingr
 app.use(tasksRoutes);
 app.use(registrationsRoutes);
 app.use(sessionsRoutes);
+app.use(categoriesRoutes);
 
 app.get("/",(req,res)=>{
    res.render("home",{user:req.user});
